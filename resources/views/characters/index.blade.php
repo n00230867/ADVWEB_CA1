@@ -12,12 +12,12 @@
                     <h3 class="font-semibold text-lg mb-4">List of Characters:</h3>
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                         @foreach($characters as $character)
+                        <a href="{{ route('characters.show', $character) }}">
                             <x-character-card
                                 :name="$character->name"
                                 :character_img="$character->character_img"
-                                :species="$character->species"
-                                :bio="$character->bio"
                             />
+                        </a>        
                         @endforeach
                     </div>
                 </div>

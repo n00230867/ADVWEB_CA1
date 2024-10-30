@@ -13,6 +13,7 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/characters', [CharacterController::class, 'index'])->name('characters.index');
+Route::get('/characters/{character}', [CharacterController::class, 'show'])->name('characters.show');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
