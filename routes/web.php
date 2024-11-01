@@ -16,6 +16,9 @@ Route::get('/characters', [CharacterController::class, 'index'])->name('characte
 Route::get('/characters/create', [CharacterController::class, 'create'])->name('characters.create');
 Route::get('/characters/{character}', [CharacterController::class, 'show'])->name('characters.show');
 Route::post('/characters', [CharacterController::class, 'store'])->name('characters.store');
+Route::get('/characters/{character}/edit', [CharacterController::class, 'edit'])->name('characters.edit');
+Route::delete('/characters/{character}', [CharacterController::class, 'destroy'])->name('characters.destroy');
+// Route::PUT('/characters/{character}', [CharacterController::class, 'update'])->name('characters.update');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

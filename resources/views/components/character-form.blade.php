@@ -1,4 +1,4 @@
-@props(['action', 'method'])
+@props(['action', 'method', 'character'])
 
 <form action="{{ $action }}" method="POST" enctype="multipart/form-data">
     @csrf
@@ -6,6 +6,7 @@
         @method($method)
     @endif
 
+    <!-- Name -->
     <div class="mb-4">
         <label for="name" class="block text-sm text-gray-700">Name</label>
         <input
@@ -20,6 +21,7 @@
         @enderror
     </div>
 
+    <!-- Image -->
     <div class="mb-4">
         <label for="character_img" class="block text-sm font-medium text-gray-700">Character Cover Image</label>
         <input
@@ -30,7 +32,8 @@
             class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
         />
 
-        <div class="mb-4">
+    <!-- Bio -->
+    <div class="mb-4">
         <label for="bio" class="block text-sm text-gray-700">Bio</label>
         <input
             type="text"
@@ -44,8 +47,9 @@
         @enderror
     </div>
 
+    <!-- Species -->
     <div class="mb-4">
-        <label for="species" class="block text-sm text-gray-700">species</label>
+        <label for="species" class="block text-sm text-gray-700">Species</label>
         <input
             type="text"
             name="species"
