@@ -29,8 +29,12 @@
             name="character_img"
             id="character_img"
             {{ isset($character) ? '' : 'required' }}
-            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-        />
+            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"/>
+        
+        @error('character_img')
+            <p class="text-sm text-red-600">{{ $message }}</p>
+        @enderror
+    </div>
 
     <!-- Bio -->
     <div class="mb-4">
@@ -62,19 +66,14 @@
         @enderror
     </div>
 
-        
-        
-        @error('character_img')
-            <p class="text-sm text-red-600">{{ $message }}</p>
-        @enderror
-    </div>
-
+    <!-- Display Existing Image -->
     @isset($character->character_img)
         <div class="mb-4">
-            <img src="{{ asset($character->character_img) }}" alt="Character cover" class="w-24 h-32 object-cover">
+            <img src="{{ asset('images/characters/' . $character->character_img) }}" alt="Character cover" class="w-24 h-32 object-cover">
         </div>
     @endisset
 
+    <!-- Submit Button -->
     <div>
         <x-primary-button>
             {{ isset($character) ? 'Update Character' : 'Add Character' }}
