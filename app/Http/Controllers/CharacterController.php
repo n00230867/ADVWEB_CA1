@@ -11,11 +11,19 @@ class CharacterController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        $characters = Character::all(); //Fetch all char
-        return view('characters.index', compact('characters'));//Return the view with char
-    }
+    public function index(Request $request)
+{
+    $search = $request->input('search');
+
+    $characters = Character::query()
+        ->when($search, function ($query, $search) {
+            return $query->where('name', 'like', '%' . $search . '%');
+        })
+        ->get();
+
+    return view('characters.index', compact('characters'));
+}
+
 
     /**
      * Show the form for creating a new resource.

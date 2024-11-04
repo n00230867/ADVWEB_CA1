@@ -14,6 +14,20 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     <h3 class="font-semibold text-lg mb-4">List of Characters:</h3>
+                    
+                    <!-- Search Input -->
+                    <label class="block mb-4">
+                        <span class="text-gray-700">Search characters by name:</span>
+                        <input 
+                            type="text" 
+                            id="character-search" 
+                            placeholder="Type a name" 
+                            value="{{ request('search') }}" 
+                            class="border rounded p-2 w-full sm:w-1/3 mt-1"
+                            oninput="window.location = '?search=' + this.value"
+                        >
+                    </label>
+
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                         @foreach($characters as $character)
                         <div class="border p-4 rounded-lg shadow-md">
@@ -23,14 +37,10 @@
                                     :character_img="$character->character_img"
                                 />
                             </a>  
-                            
                             <div class="mt-4 flex space-x-2">
-                                <!-- Edit Button for editing the character -->
                                 <a href="{{ route('characters.edit', $character) }}" class="text-gray-600 bg-orange-300 hover:bg-orange-700 font-bold py-2 px-4 rounded">
                                     Edit
                                 </a>
-
-                                <!-- Delete Button (form required for DELETE request) -->
                                 <form action="{{ route('characters.destroy', $character) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this character?');">
                                     @csrf
                                     @method('DELETE')
