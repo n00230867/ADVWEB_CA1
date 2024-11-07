@@ -78,7 +78,7 @@ class CharacterController extends Controller
     }
 
     /**
-     * Validate and update character information and image.
+     * Validate and update character information, keeping the existing image if no new one is uploaded.
      */
     public function update(Request $request, Character $character)
     {
@@ -86,17 +86,21 @@ class CharacterController extends Controller
             'name' => 'required|string|max:255',
             'bio' => 'required|string|max:5000',
             'species' => 'required|string|max:255',
-            'character_img' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'character_img' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Image is optional
         ]);
 
-        // Update image if a new file is uploaded.
+        // If a new image is uploaded, handle the upload and update the image name
         if ($request->hasFile('character_img')) {
             $character_imgName = time() . '.' . $request->character_img->extension();
             $request->character_img->move(public_path('images/characters'), $character_imgName);
-            $character->update(['character_img' => $character_imgName]);
+
+            // Update character with new image
+            $character->update([
+                'character_img' => $character_imgName,
+            ]);
         }
 
-        // Update character data.
+        // Update character data (name, bio, species) without affecting the image if not provided
         $character->update($request->only(['name', 'bio', 'species']));
 
         return to_route('characters.index')->with('success', 'Character updated successfully!');
