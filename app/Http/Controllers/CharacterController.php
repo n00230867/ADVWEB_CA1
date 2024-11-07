@@ -9,24 +9,20 @@ use Illuminate\Support\Facades\Storage;
 class CharacterController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a list of characters with optional search filtering.
      */
     public function index(Request $request)
-{
-    $search = $request->input('search');
+    {
+        $search = $request->input('search');
 
-    $characters = Character::query()
-        ->when($search, function ($query, $search) {
-            return $query->where('name', 'like', '%' . $search . '%');
-        })
-        ->get();
+        // Filters characters by name if search is provided.
+        $characters = Character::when($search, fn($query) => $query->where('name', 'like', "%$search%"))->get();
 
-    return view('characters.index', compact('characters'));
-}
-
+        return view('characters.index', compact('characters'));
+    }
 
     /**
-     * Show the form for creating a new resource.
+     * Show form for creating a new character.
      */
     public function create()
     {
@@ -34,149 +30,85 @@ class CharacterController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Validate and store a new character with an image.
      */
     public function store(Request $request)
     {
-        // Validate input
         $request->validate([
             'name' => 'required',
             'bio' => 'required|max:5000',
             'species' => 'required|max:100',
             'character_img' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-    
-        // Check if the image is uploaded and handle it
-        if ($request->hasFile('character_img')) {
-            $character_imgName = time().'.'.$request->character_img->extension();
+
+        // Handles image upload and naming.
+        $character_imgName = $request->hasFile('character_img')
+            ? time() . '.' . $request->character_img->extension()
+            : null;
+        
+        if ($character_imgName) {
             $request->character_img->move(public_path('images/characters'), $character_imgName);
-        } else{
-            $character_imgName = null;
         }
-    
-        // Create a character record in the database
+
+        // Create character with validated data.
         Character::create([
             'name' => $request->name,
             'bio' => $request->bio,
             'species' => $request->species,
-            'character_img' => $character_imgName, // Store the image URL in the DB
-            'created_at' => now(),
-            'updated_at' => now(),
+            'character_img' => $character_imgName,
         ]);
-    
-        // Redirect to the index page with a success message
+
         return to_route('characters.index')->with('success', 'Character created successfully!');
     }
-    
-
 
     /**
-     * Display the specified resource.
+     * Display a specific character's details.
      */
     public function show(Character $character)
     {
-        return view('characters.show')->with('character', $character);
+        return view('characters.show', compact('character'));
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Show form for editing a character.
      */
     public function edit(Character $character)
     {
-        return view('characters.edit', compact('character')); 
+        return view('characters.edit', compact('character'));
     }
-    
 
     /**
-     * Update the specified resource in storage.
+     * Validate and update character information and image.
      */
-    // public function update(Request $request, Character $character)
-    // {
-    //     // Validate the incoming request data
-    //     $request->validate([
-    //         'name' => 'required|string|max:255',
-    //         'bio' => 'required|string|max:5000',
-    //         'species' => 'required|string|max:255',
-    //         'character_img' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', 
-    //     ]);
-
-    //     // Prepare data for updating
-    //     $data = $request->only(['name', 'bio', 'species', 'character_img']);
-
-    //     if ($request->hasFile('character_img')) {
-    //         // Delete old image if it exists
-    //         if ($character->character_img && Storage::exists('public/images/characters/' . $character->character_img)) {
-    //             Storage::delete('public/images/characters/' . $character->character_img);
-    //         }
-            
-    //         // Store the new image and update the image path
-    //         $character_imgName = time() . '.' . $request->file('character_img')->extension();
-    //         $request->file('character_img')->storeAs('public/images/characters', $character_imgName);
-    //         $data['character_img'] = $character_imgName;
-    //     }
-
-    //     // Update character with new data
-    //     $character->update($data);
-
-    //     // Redirect to the index page with a success message
-    //     return redirect()->route('characters.index')->with('success', 'Character updated successfully!');
-    // }
     public function update(Request $request, Character $character)
-{
-    $request->validate([
-        'name' => 'required|string|max:255',
-        'bio' => 'required|string|max:5000',
-        'species' => 'required|string|max:255',
-        'character_img' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', 
-    ]);
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'bio' => 'required|string|max:5000',
+            'species' => 'required|string|max:255',
+            'character_img' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
 
-    // Store old image name to delete if necessary
-    $oldImageName = $character->character_img;
-
-    // Check if a new image file was uploaded
-    if ($request->hasFile('character_img')) {
-        // Generate a new image name
-        $character_imgName = time() . '.' . $request->character_img->extension();
-        // Move the new image to the public directory
-        $request->character_img->move(public_path('images/characters'), $character_imgName);
-
-        // Delete the old image from the public directory if it exists
-        if ($oldImageName && file_exists(public_path('images/characters/' . $oldImageName))) {
-            unlink(public_path('images/characters/' . $oldImageName));
+        // Update image if a new file is uploaded.
+        if ($request->hasFile('character_img')) {
+            $character_imgName = time() . '.' . $request->character_img->extension();
+            $request->character_img->move(public_path('images/characters'), $character_imgName);
+            $character->update(['character_img' => $character_imgName]);
         }
-    } else {
-        // If no new image, keep the old image name
-        $character_imgName = $oldImageName;
+
+        // Update character data.
+        $character->update($request->only(['name', 'bio', 'species']));
+
+        return to_route('characters.index')->with('success', 'Character updated successfully!');
     }
 
-    // Update the character record with new data
-    $character->update([
-        'name' => $request->name,
-        'character_img' => $character_imgName, // Store the image URL in the DB
-        'species' => $request->species,
-        'bio' => $request->bio,
-    ]);
-
-    // Redirect back to the index with a success message
-    return to_route('characters.index')->with('success', 'Character updated successfully!');
-}
-
-
-
     /**
-     * Remove the specified resource from storage.
+     * Delete a character from the database.
      */
-   /**
- * Remove the specified resource from storage.
- */
     public function destroy(Character $character)
     {
-
-        // Delete the character from the database
         $character->delete();
 
-        // Redirect to the characters list with a success message
         return to_route('characters.index')->with('success', 'Character deleted successfully!');
     }
-
-} 
+}

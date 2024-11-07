@@ -38,7 +38,7 @@
                                 />
                             </a>  
                             <div class="mt-4 flex space-x-2">
-                                <a href="{{ route('characters.edit', $character) }}" class="text-gray-600 bg-orange-300 hover:bg-orange-700 font-bold py-2 px-4 rounded">
+                                <a href="{{ route('characters.edit', $character) }}" class="text-gray-600 bg-blue-300 hover:bg-orange-700 font-bold py-2 px-4 rounded">
                                     Edit
                                 </a>
                                 <form action="{{ route('characters.destroy', $character) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this character?');">
