@@ -13,14 +13,23 @@ class CharacterController extends Controller
      */
     public function index(Request $request)
     {
-        $search = $request->input('search');
-
-        // Filters characters by name if search is provided.
-        $characters = Character::when($search, fn($query) => $query->where('name', 'like', "%$search%"))->get();
-
+        $query = Character::query();
+    
+        // Filter by species if specified
+        if ($request->filled('species')) {
+            $query->where('species', $request->species);
+        }
+    
+        // Search by character name if specified
+        if ($request->filled('search')) {
+            $query->where('name', 'like', '%' . $request->search . '%');
+        }
+    
+        // Get the filtered characters
+        $characters = $query->get();
+    
         return view('characters.index', compact('characters'));
     }
-
     /**
      * Show form for creating a new character.
      */
