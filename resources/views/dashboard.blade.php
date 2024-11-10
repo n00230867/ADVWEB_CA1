@@ -11,6 +11,9 @@
                 <div class="p-6 text-gray-900">
                     {{ __("You're logged in!") }}
                 </div>
+                <div class="p-6 text-gray-900">
+                    {{ __("This website is made to help you with your favorite star wars characters and everything related to them!") }}
+                </div>
             </div>
         </div>
     </div>

@@ -44,6 +44,7 @@
                                         <option value="Chiss" {{ request('species') == 'Chiss' ? 'selected' : '' }}>Chiss</option>
                                         <option value="Droid" {{ request('species') == 'Droid' ? 'selected' : '' }}>Droid</option>
                                         <option value="Cyborg" {{ request('species') == 'Cyborg' ? 'selected' : '' }}>Cyborg</option>
+                                        <option value="Dathomirian Zabrak" {{ request('species') == 'Dathomirian Zabrak' ? 'selected' : '' }}>Dathomirian Zabrak</option>
                                     </select>
                                 </label>
 
