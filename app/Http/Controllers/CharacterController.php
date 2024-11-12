@@ -35,6 +35,9 @@ class CharacterController extends Controller
      */
     public function create()
     {
+        if (auth()->user()->role !== 'admin'){
+            return redirect()->route('characters.index')->with('error', 'Access denied.');
+        }
         return view('characters.create');
     }
 

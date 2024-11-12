@@ -64,6 +64,7 @@
                                         :character_img="$character->character_img"
                                     />
                                 </a>
+                                @if(auth()->user()->role === 'admin')
                                 <div class="mt-4 flex space-x-2">
                                     <a href="{{ route('characters.edit', $character) }}" class="text-white bg-blue-500 hover:bg-blue-900 font-bold py-2 px-4 rounded">
                                         Edit
@@ -76,6 +77,7 @@
                                     </button>
                                 </form>
                             </div>
+                            @endif
                         </div>
                         @endforeach
                     </div>
