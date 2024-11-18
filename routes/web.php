@@ -29,6 +29,10 @@ Route::middleware('auth')->group(function () {
     Route::put('/characters/{character}', [CharacterController::class, 'update'])->name('characters.update');
    
     Route::get('/characters', [CharacterController::class, 'index'])->name('characters.index');
+
+    Route::resource('planets', PlanetController::class);
+
+    Route::post('characters/{character}/planets', [PlanetController::class, 'store'])->name('planets.store');
 });
 
 require __DIR__.'/auth.php';

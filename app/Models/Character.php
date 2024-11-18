@@ -17,4 +17,9 @@ class Character extends Model
         'created_at',
         'updated_at',
     ];
+
+    public function planets()
+    {
+        return $this->hasMany(Review::class);
+    }
 }
