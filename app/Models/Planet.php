@@ -12,7 +12,8 @@ class Planet extends Model
     protected $fillable = [
         'user_id',
         'name',
-        'climate',
+        'climate', 
+        'description',
         'planet_img',
         'character_id',
     ];

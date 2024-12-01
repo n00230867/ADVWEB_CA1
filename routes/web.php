@@ -3,6 +3,9 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CharacterController;
+use App\Http\Controllers\PlanetController;
+
+Route::post('/planets', [PlanetController::class, 'store'])->name('planets.store');
 
 
 Route::get('/', function () {
@@ -27,12 +30,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/characters/{character}/edit', [CharacterController::class, 'edit'])->name('characters.edit');
     Route::delete('/characters/{character}', [CharacterController::class, 'destroy'])->name('characters.destroy');
     Route::put('/characters/{character}', [CharacterController::class, 'update'])->name('characters.update');
-   
+
     Route::get('/characters', [CharacterController::class, 'index'])->name('characters.index');
 
     Route::resource('planets', PlanetController::class);
 
-    Route::post('characters/{character}/planets', [PlanetController::class, 'store'])->name('planets.store');
+    // Route::post('characters/{character}/planets', [PlanetController::class, 'store'])->name('planets.store');
 });
 
 require __DIR__.'/auth.php';

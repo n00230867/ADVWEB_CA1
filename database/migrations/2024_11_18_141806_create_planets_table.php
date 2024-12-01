@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('planets', function (Blueprint $table) {
             $table->id();
-            $table->foreignID('character_id')->constrained()->onDelete('casade');
-            $table->foreignID('user_id')->constrained()->onDelete('casade');
+            $table->foreignId('character_id')->constrained()->onDelete('cascade');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->text('name');
             $table->text('climate');
+            $table->text('description');
             $table->text('planet_img');
         });
     }

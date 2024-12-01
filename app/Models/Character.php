@@ -20,6 +20,6 @@ class Character extends Model
 
     public function planets()
     {
-        return $this->hasMany(Review::class);
+        return $this->hasMany(Planet::class);
     }
 }

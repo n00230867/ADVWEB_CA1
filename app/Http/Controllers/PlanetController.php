@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Planet;
-use App\Http\Controllers\Controller;
+use App\Models\Character;
 use Illuminate\Http\Request;
 
 class PlanetController extends Controller
@@ -29,8 +29,30 @@ class PlanetController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'character_id' => 'required|exists:characters,id',
+            'name' => 'required|string|max:255',
+            'climate' => 'required|string|max:255',
+            'description' => 'required|string',
+            'planet_img' => 'required|url',
+        ]);
+
+        Planet::create($request->all());
+
+        return redirect()->back()->with('success', 'Planet added successfully!');
     }
+
+    //     $character->planets()->create([
+    //         'user_id' => auth()->id(),
+    //         'name' => $request->input('name'),
+    //         'climate' => $request->input('climate'),
+    //         'description' => $request->input('description'),
+    //         'planet_img' => $request->input('planet_img'),  
+    //         'character_id' => $character->id
+    //     ]);
+
+    //     return redirect()->route('character.show', $character)->with('success', 'Planet added successfully.');
+    // }
 
     /**
      * Display the specified resource.
