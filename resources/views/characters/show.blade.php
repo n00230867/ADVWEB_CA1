@@ -19,19 +19,20 @@
                     :bio="$character->bio"
                 />
 
-                <!-- CHARACTER PLANET -->
+                <!-- PLANETS SECTION -->
                 <h4 class="text-gray-300 font-semibold text-md mt-8">Planets</h4>
                 @if($character->planets->isEmpty())
                     <p class="text-gray-300">No planets yet.</p>
                 @else
                     <ul class="mt-4 space-y-4">
                         @foreach($character->planets as $planet)
-                            <li class="bg-gray-100 p-4 rounded-lg">
-                                <p class="font-semibold">{{ $planet->user->name }}</p>
-                                <p>Planet name: {{ $planet->name }} </p>
-                                <p>Climate: {{ $planet->climate }} </p>
-                                <p>Description: {{ $planet->description }} </p>
-                                <p>planet_img: {{ $planet->planet_img }} </p>
+                            <li>
+                                <x-planet-details
+                                    :name="$planet->name"
+                                    :climate="$planet->climate"
+                                    :description="$planet->description"
+                                    :planet_img="$planet->planet_img"
+                                />
                             </li>
                         @endforeach
                     </ul>
@@ -39,40 +40,4 @@
             </div>
         </div>
     </div>
-
-    <!-- resources/views/characters/show.blade.php -->
-
-<h1>{{ $character->name }}</h1>
-<p>{{ $character->description }}</p>
-
-<h2>Planets</h2>
-<ul>
-    @foreach($character->planets as $planet)
-        <li>
-            <strong>{{ $planet->name }}</strong>: {{ $planet->description }} 
-            <img src="{{ $planet->planet_img }}" alt="{{ $planet->name }}" style="width: 100px;">
-        </li>
-    @endforeach
-</ul>
-
-<!-- Form to add a new planet -->
-<form action="{{ route('planets.store') }}" method="POST">
-    @csrf
-    <input type="hidden" name="character_id" value="{{ $character->id }}">
-    
-    <label for="name">Planet Name:</label>
-    <input type="text" name="name" required>
-    
-    <label for="climate">Climate:</label>
-    <input type="text" name="climate" required>
-    
-    <label for="description">Description:</label>
-    <textarea name="description" required></textarea>
-    
-    <label for="planet_img">Image URL:</label>
-    <input type="url" name="planet_img" required>
-    
-    <button type="submit">Add Planet</button>
-</form>
-
 </x-app-layout>
