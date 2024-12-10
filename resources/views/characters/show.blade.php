@@ -40,7 +40,7 @@
             <form action="{{ route('powers.store', $character) }}" method="POST" class="mt-4">
                 @csrf
                 <div class="mb-4">
-                    <label for="rating" class="block font-medium text-sm text-gray-700">Power Rating</label>
+                    <label for="rating" class="block font-medium text-sm text-white">Power Rating</label>
                     <select name="rating" id="rating" class="mt-1 block w-full" required>
                         <option value="1">1</option>
                         <option value="2">2</option>
@@ -51,11 +51,11 @@
                 </div>
 
                 <div class="mb-4">
-                    <label for="comment" class="block font-medium text-sm text-gray-700">Comment</label>
+                    <label for="comment" class="block font-medium text-sm text-white">Comment</label>
                     <textarea name="comment" id="comment" rows="3" class="mt-1 block w-full" placeholder="Write your comment here..."></textarea>
                 </div>
 
-                <button type="submit" class="bg-blue-700 text-white font-bold py-2 px-2 rounded">
+                <button type="submit" class="bg-blue-500 text-white font-bold py-2 px-2 rounded">
                     Submit Comment
                 </button>
             </form>

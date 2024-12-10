@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Power;
+use App\Models\Character; // Add this line
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 

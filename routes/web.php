@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CharacterController;
+use App\Http\Controllers\PowerController;
 
 
 Route::get('/', function () {
@@ -31,7 +32,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/characters', [CharacterController::class, 'index'])->name('characters.index');
 });
 
-//The code below creates a;; Routes for powers
+//The code below creates a Routes for powers
 Route::resource('powers', PowerController::class);
 
 Route::post('characters/{character}/powers', [PowerController::class, 'store'])->name('powers.store');
