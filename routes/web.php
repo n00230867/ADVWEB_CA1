@@ -27,8 +27,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/characters/{character}/edit', [CharacterController::class, 'edit'])->name('characters.edit');
     Route::delete('/characters/{character}', [CharacterController::class, 'destroy'])->name('characters.destroy');
     Route::put('/characters/{character}', [CharacterController::class, 'update'])->name('characters.update');
-   
+
     Route::get('/characters', [CharacterController::class, 'index'])->name('characters.index');
 });
+
+//The code below creates a;; Routes for powers
+Route::resource('powers', PowerController::class);
+
+Route::post('characters/{character}/powers', [PowerController::class, 'store'])->name('powers.store');
 
 require __DIR__.'/auth.php';

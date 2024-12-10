@@ -78,6 +78,7 @@ class CharacterController extends Controller
      */
     public function show(Character $character)
     {
+        $character->load('powers.user');
         return view('characters.show', compact('character'));
     }
 
