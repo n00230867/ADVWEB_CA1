@@ -11,12 +11,12 @@
                 <div class="p-6 text-gray-900">
                     <h3 class="font-semibold text-lg mb-4">Edit Power:</h3>
 
-                    <x-power-date_format
+                    <x-power-form
                         :action="route('powers.update', $power)"
                         :method="'PUT'"
                         :power="$power"
                     />
-                    
+
                 </div>
             </div>
         </div>
