@@ -22,4 +22,9 @@ class Character extends Model
     {
         return $this->hasMany(Power::class);
     }
+
+    public function movies()
+    {
+        return $this->belongsToMany(Movie::class);
+    }
 }
