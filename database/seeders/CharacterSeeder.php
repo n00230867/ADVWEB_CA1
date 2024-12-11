@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Character;
+use App\Models\Movie;
 use Carbon\Carbon;
 
 class CharacterSeeder extends Seeder
@@ -15,7 +16,9 @@ class CharacterSeeder extends Seeder
     public function run(): void
     {
         $currentTimestamp = Carbon::now();
-        Character::insert([
+        
+        // Define the character data in an array
+        $characters = [
             ['name' => 'Anakin Skywalker', 
             'species' => 'Human', 
             'character_img' => 'Anakin_Skywalker.png', 
@@ -57,7 +60,24 @@ class CharacterSeeder extends Seeder
             'bio' => "Yoda was one of the most powerful Jedi Masters in galactic history and a leader of the Jedi Council. With centuries of experience, he trained many generations of Jedi Knights, including Luke Skywalker. His wisdom and teachings helped guide the fate of the galaxy during the turbulent times of the Republic and Empire.", 
             'created_at' => $currentTimestamp, 
             'updated_at' => $currentTimestamp]
-            
-        ]);
+        ];
+
+        // Insert the character data into the database
+        Character::insert($characters);
+
+        foreach ($characters as $characterData)
+        {
+            // insert the character into the book table
+            $character = Character::create(array_merge($characterData, ['created_at' => $currentTimestamp, 'updated_at' => $currentTimestamp]));
+
+            // randomly select two movies !note - movies must exist in the movies table
+            // so MovieSeeder must be executed before CharacterSeeder
+            $movies = Movie::inRandomOrder()->take(2)->pluck('id');
+
+            // attach movies to characters
+            // Laravel's attach() function inserts a row in the pivot table indicating that this character belongs to this movie
+            // you need to have the relationships and pivot table set up correctly for this to work
+            $character->movies()->attach($movies);
+        }
     }
 }

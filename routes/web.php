@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CharacterController;
 use App\Http\Controllers\PowerController;
+use App\Http\Controllers\MovieController;
 
 
 Route::get('/', function () {
@@ -31,6 +32,11 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/characters', [CharacterController::class, 'index'])->name('characters.index');
 });
+
+
+Route::resource('movies', MovieController::class)->middleware('auth');
+
+
 
 //The code below creates a Routes for powers
 Route::resource('powers', PowerController::class);
