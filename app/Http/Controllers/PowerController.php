@@ -59,7 +59,11 @@ class PowerController extends Controller
      */
     public function edit(Power $power)
     {
-        //
+        if (auth()->user()->id !== $power->user_id && auth()->user()->role !== 'admin') {
+            return redirect()->route('characters.index')->with('error', 'Access denied.');
+        }
+
+        return view('powers.edit', compact('power'));
     }
 
     /**
@@ -67,7 +71,9 @@ class PowerController extends Controller
      */
     public function update(Request $request, Power $power)
     {
-        //
+        $power->update($request->only(['rating', 'comment']));
+
+        return redirect()->route('characters.show', $power->character_id)->with('success', 'Rating updated successfully!');
     }
 
     /**

@@ -22,7 +22,7 @@
                         <!-- Character Power -->
             <h4 class="font-semibold text-md mt-8">Power</h4>
             @if($character->powers->isEmpty())
-                <p class="text-gray-600">No Power Ratings yet.</p>
+                <p class="text-white">No Power Ratings yet.</p>
             @else
                 <ul class="mt-4 space-y-4">
                     @foreach($character->powers as $power)
@@ -30,6 +30,20 @@
                             <p class="font-semibold">{{ $power->user->name }} ({{ $power->created_at->format('M d,Y') }})</p>
                             <p>Power: {{ $power->rating }} / 5</p>
                             <p>{{ $power->comment }}</p>
+
+                            @if ($power->user->is(auth()->user()) || auth()->user()->role === 'admin')
+
+                                <a href="{{ route('powers.edit', $power) }}" class="bg-blue-500 hover:bg-blue-900 text-white font-bold py-2 px-4 rounded">
+                                    {{ __('Edit Rating')}}
+                                </a>
+                                <form method="POST" action="{{ route('powers.destroy', $power) }}">
+                                    @csrf
+                                    @method('delete')
+                                    <x-danger-button :href="route('powers.destroy', $power)"
+                                                        onclick="event.preventDefault(); this.closest('form').submit();">
+                                        {{ __('Delete Rating')}}
+                                    </x-danger-button>
+                            @endif
                         </li>
                     @endforeach
                 </ul>
