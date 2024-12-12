@@ -63,7 +63,7 @@ class CharacterSeeder extends Seeder
         ];
 
         // Insert the character data into the database
-        Character::insert($characters);
+        
 
         foreach ($characters as $characterData)
         {

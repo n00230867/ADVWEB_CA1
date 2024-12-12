@@ -38,7 +38,10 @@ class MovieController extends Controller
      */
     public function show(Movie $movie)
     {
-        return view('movies.show')->with('movie', $movie);
+        // Eager load characters related to the movie
+        $characters = $movie->characters; // Assuming you have a 'characters' relationship defined in the Movie model
+
+        return view('movies.show', compact('movie', 'characters'));
     }
 
     /**

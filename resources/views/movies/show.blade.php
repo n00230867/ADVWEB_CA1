@@ -20,6 +20,15 @@
                     :description="$movie->description"
                 />
             </div>
+            <h3 class="font-semibold text-lg mt-6">Characters:</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-4">
+                @foreach($characters as $character)
+                    <div class="bg-gray-800 border p-4 rounded-lg shadow-md text-white">
+                        <h4 class="font-semibold">{{ $character->name }}</h4>
+                        <img src="{{asset('images/characters/' . $character->character_img)}}" alt="{{ $character->name }}" class="mt-2 rounded">
+                    </div>
+                @endforeach
+            </div>
         </div>
     </div>
 </x-app-layout>
