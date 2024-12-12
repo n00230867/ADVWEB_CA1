@@ -34,21 +34,20 @@ Route::middleware('auth')->group(function () {
 });
 
 
+
 Route::resource('movies', MovieController::class)->middleware('auth');
 
+Route::get('/movies', [MovieController::class, 'index'])->name('movies.index');
+Route::get('/movies/{movie}', [MovieController::class, 'show'])->name('movies.show');
 
 
 //The code below creates a Routes for powers
 Route::resource('powers', PowerController::class);
-
 Route::post('characters/{character}/powers', [PowerController::class, 'store'])->name('powers.store');
-
 // Route to show the edit form for a specific power
 Route::get('/powers/{power}/edit', [PowerController::class, 'edit'])->name('powers.edit');
-
 // Route to update a specific power
 Route::put('/powers/{power}', [PowerController::class, 'update'])->name('powers.update');
-
 // Route to delete a specific power
 Route::delete('/powers/{power}', [PowerController::class, 'destroy'])->name('powers.destroy');
 

@@ -20,6 +20,10 @@
                         {{ __('Characters') }}
                     </x-nav-link>
 
+                    <x-nav-link :href="route('movies.index')" :active="request()->routeIs('movies.index')" class="text-white">
+                        {{ __('Movies') }}
+                    </x-nav-link>
+
                     @if(auth()->user()->role === 'admin')
                         <x-nav-link :href="route('characters.create')" :active="request()->routeIs('characters.create')" class="text-white">
                             {{ __('Create Characters') }}
