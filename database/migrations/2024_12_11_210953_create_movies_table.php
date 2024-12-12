@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('release');
             $table->string('director');
             $table->text('description')->nullable();
+            $table->timestamps();
         });
     }
 

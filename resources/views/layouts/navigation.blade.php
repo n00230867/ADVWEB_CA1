@@ -29,6 +29,11 @@
                             {{ __('Create Characters') }}
                         </x-nav-link>
                     @endif
+
+                    <x-nav-link :href="route('movies.create')" :active="request()->routeIs('movies.create')" class="text-white">
+                            {{ __('Create Movies') }}
+                    </x-nav-link>
+
                 </div>
             </div>
 

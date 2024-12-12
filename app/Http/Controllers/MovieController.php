@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Movie;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class MovieController extends Controller
 {
@@ -22,7 +23,10 @@ class MovieController extends Controller
      */
     public function create()
     {
-        //
+        if (auth()->user()->role !== 'admin'){
+            return redirect()->route('movies.index')->with('error', 'Access denied.');
+        }
+        return view('movies.create');
     }
 
     /**
@@ -30,7 +34,33 @@ class MovieController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'title' => 'required',
+            'description' => 'required|max:5000',
+            'release' => 'required|max:100',
+            'director' => 'required|max:100',
+            'poster' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        // Handles image upload and naming.
+        $posterName = $request->hasFile('poster')
+            ? time() . '.' . $request->poster->extension()
+            : null;
+        
+        if ($posterName) {
+            $request->poster->move(public_path('images/movies'), $posterName);
+        }
+
+        // Create movie with validated data.
+        Movie::create([
+            'title' => $request->title,
+            'description' => $request->description,
+            'release' => $request->release,
+            'director' => $request->director,
+            'poster' => $posterName,
+        ]);
+
+        return redirect()->route('movies.index')->with('success', 'Movie created successfully!');
     }
 
     /**
