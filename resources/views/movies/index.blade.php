@@ -41,7 +41,7 @@
                         </form>
                     </div>
 
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                         @foreach($movies as $movie)
                         <a href="{{ route('movies.show', $movie) }}">
                             <div class="bg-gray-900 border p-4 rounded-lg shadow-md text-black">
@@ -52,6 +52,35 @@
                                 />
                             </div>
                         </a>
+                        @endforeach
+                    </div> -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                            @foreach($movies as $movie)
+                            <div class="bg-gray-900 border p-4 rounded-lg shadow-md text-black">
+                                <a href="{{ route('movies.show', $movie) }}">
+                                    <x-movie-card
+                                        :title="$movie->title"
+                                        :poster="$movie->poster"
+                                        :release="$movie->release"
+                                        :director="$movie->director"
+                                        :description="$movie->description"
+                                    />
+                                </a>
+                                @if(auth()->user()->role === 'admin')
+                                <div class="mt-4 flex space-x-2">
+                                    <a href="{{ route('movies.edit', $movie) }}" class="text-white bg-blue-500 hover:bg-blue-900 font-bold py-2 px-4 rounded">
+                                        Edit
+                                    </a>
+                                    <form action="{{ route('movies.destroy', $movie) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this movie?');">
+                                        @csrf
+                                        @method('DELETE')
+                                    <button type="submit" class="bg-red-500 hover:bg-red-900 text-white font-bold py-2 px-4 rounded">
+                                        Delete
+                                    </button>
+                                </form>
+                            </div>
+                            @endif
+                        </div>
                         @endforeach
                     </div>
                 </div>

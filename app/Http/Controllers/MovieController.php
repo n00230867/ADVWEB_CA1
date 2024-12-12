@@ -79,7 +79,7 @@ class MovieController extends Controller
      */
     public function edit(Movie $movie)
     {
-        //
+        return view('movies.edit', compact('movie'));
     }
 
     /**
@@ -87,7 +87,29 @@ class MovieController extends Controller
      */
     public function update(Request $request, Movie $movie)
     {
-        //
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string|max:5000',
+            'director' => 'required|string|max:255',
+            'release' => 'required|string|max:255',
+            'poster' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Image is optional
+        ]);
+
+        // If a new image is uploaded, handle the upload and update the image name
+        if ($request->hasFile('poster')) {
+            $posterName = time() . '.' . $request->poster->extension();
+            $request->poster->move(public_path('images/movies'), $posterName);
+
+            // Update movie with new image
+            $movie->update([
+                'poster' => $posterName,
+            ]);
+        }
+
+        // Update movie data (title, description, director) without affecting the image if not provided
+        $movie->update($request->only(['title', 'description', 'director', 'release']));
+
+        return to_route('movies.index')->with('success', 'Movie updated successfully!');
     }
 
     /**
@@ -95,6 +117,8 @@ class MovieController extends Controller
      */
     public function destroy(Movie $movie)
     {
-        //
+        $movie->delete();
+
+        return to_route('movies.index')->with('success', 'Movie deleted successfully!');
     }
 }
