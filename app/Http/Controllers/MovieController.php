@@ -12,9 +12,19 @@ class MovieController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $movies = Movie::all();
+        
+        $query = Movie::query();
+
+        // Search by character title if specified
+        if ($request->filled('search')) {
+            $query->where('title', 'like', '%' . $request->search . '%');
+        }
+
+        // Get the movies based on the query
+        $movies = $query->get();
+
         return view('movies.index', compact('movies'));
     }
 

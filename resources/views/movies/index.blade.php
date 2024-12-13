@@ -40,20 +40,7 @@
                             </div>
                         </form>
                     </div>
-
-                    <!-- <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                        @foreach($movies as $movie)
-                        <a href="{{ route('movies.show', $movie) }}">
-                            <div class="bg-gray-900 border p-4 rounded-lg shadow-md text-black">
-                                <x-movie-card
-                                    :title="$movie->title"
-                                    :poster="$movie->poster"
-                                    :release="$movie->release"
-                                />
-                            </div>
-                        </a>
-                        @endforeach
-                    </div> -->
+                    
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                             @foreach($movies as $movie)
                             <div class="bg-gray-900 border p-4 rounded-lg shadow-md text-black">
