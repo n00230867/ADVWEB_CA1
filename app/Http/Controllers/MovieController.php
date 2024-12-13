@@ -49,7 +49,7 @@ class MovieController extends Controller
             'description' => 'required|max:5000',
             'release' => 'required|max:100',
             'director' => 'required|max:100',
-            'poster' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'poster' => 'required|image|mimes:jpeg,png,jpg,gif',
         ]);
 
         // Handles image upload and naming.
@@ -102,7 +102,7 @@ class MovieController extends Controller
             'description' => 'required|string|max:5000',
             'director' => 'required|string|max:255',
             'release' => 'required|string|max:255',
-            'poster' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Image is optional
+            'poster' => 'nullable|image|mimes:jpeg,png,jpg,gif', // Image is optional
         ]);
 
         // If a new image is uploaded, handle the upload and update the image name

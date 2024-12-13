@@ -28,11 +28,12 @@
                         <x-nav-link :href="route('characters.create')" :active="request()->routeIs('characters.create')" class="text-white">
                             {{ __('Create Characters') }}
                         </x-nav-link>
+
+                        <x-nav-link :href="route('movies.create')" :active="request()->routeIs('movies.create')" class="text-white">
+                            {{ __('Create Movies') }}
+                        </x-nav-link>
                     @endif
 
-                    <x-nav-link :href="route('movies.create')" :active="request()->routeIs('movies.create')" class="text-white">
-                            {{ __('Create Movies') }}
-                    </x-nav-link>
 
                 </div>
             </div>
